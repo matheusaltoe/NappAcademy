@@ -18,6 +18,8 @@ class TestEcommerce:
         objeto.nome = 'Lojão Tabajara Centro'
         assert objeto.nome == 'Lojão Tabajara Centro'
         assert objeto.estoque == []
+        objeto.saldo_caixa = 5500
+        assert objeto.saldo_caixa == 5500
 
     def test_str_repr(self):
         objeto = Loja('Lojão Tabajara')

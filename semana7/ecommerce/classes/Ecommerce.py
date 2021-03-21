@@ -3,9 +3,10 @@ from ecommerce.classes.Pedido import Pedido
 
 
 class Loja:
-    def __init__(self, nome):
+    def __init__(self, nome, **kwargs):
         self._nome = nome
         self._estoque = []
+        self._saldo_caixa = kwargs.get('saldo_caixa', 5000)
 
     @property
     def nome(self):
@@ -18,6 +19,14 @@ class Loja:
     @property
     def estoque(self):
         return self._estoque
+    
+    @property
+    def saldo_caixa(self):
+        return self._saldo_caixa
+    
+    @saldo_caixa.setter
+    def saldo_caixa(self, value):
+        self._saldo_caixa = value
 
     def __str__(self):
         return self.nome
@@ -27,7 +36,7 @@ class Loja:
 
     def add_estoque(self, ean, preco, quantidade):
         for i in range(quantidade):
-            self._estoque.append(Produto(ean=ean, preco=preco))
+            self._estoque.append(Produto(ean=ean, preco=preco, quantidade=quantidade))
 
     def quantidade_produtos(self, ean):
         quantidade = 0
@@ -50,3 +59,6 @@ class Loja:
                     self._estoque.append(item)
             pedido.itens = []
             return pedido
+
+    def soma_caixa(self, total_venda):
+        self.saldo_caixa += total_venda   

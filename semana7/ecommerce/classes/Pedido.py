@@ -57,7 +57,7 @@ class Pedido:
     def valor_total_pagar(self):
         total_pagar = 0
         for produto in self.itens:
-            total_pagar = total_pagar + produto.preco
+            total_pagar = total_pagar + (produto.preco * produto.quantidade)
         return total_pagar
 
     def checkout(self, forma_pagamento=None):

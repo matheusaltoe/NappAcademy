@@ -16,6 +16,11 @@ class TestProduto:
         with pytest.raises(ValueError) as error:
             Produto(ean='12345678911', preco=-1)
         assert str(error.value) == 'Preço negativo'
+        
+    def test_instanciar_objeto_sem_estoque(self):
+        with pytest.raises(ValueError) as error:
+            Produto(ean='12345678911', preco=10, quantidade=0)
+        assert str(error.value) == 'Sem estoque'
 
     def test_setters(self):
         objeto = Produto(ean='123')
