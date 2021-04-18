@@ -2,6 +2,7 @@ from abc import ABC, abstractmethod
 from contextlib import closing
 import sqlite3
 import csv
+import re
 
 
 class Estrategia(ABC):
@@ -65,3 +66,48 @@ class Estrategia_CSV(Estrategia):
 
     def nome(self):
         return 'Algoritmo CSV'
+
+
+class Estrategia_Texto1(Estrategia):
+    def execute(self, dados):
+        lista_registros = []
+        arquivo = dados['arquivo']
+        with open(arquivo) as fp:
+            reader = fp.readlines()
+            for line in reader:
+                if not line[0].isdigit():
+                    continue
+                data = line[:11].strip()
+                produto = line[49:].strip()
+                total = line[36:48].strip()
+                lista_registros.append((produto, total, data))
+        return lista_registros
+    
+    def parametros_necessarios(self):
+        return ('algoritmo', 'arquivo')
+
+    def nome(self):
+        return 'Algoritmo Texto1'
+
+
+class Estrategia_Texto2(Estrategia):
+    def execute(self, dados):
+        lista_registros = []
+        arquivo = dados['arquivo']
+        with open(arquivo) as fp:
+            reader = fp.readlines()
+            for line in reader:
+                pattern = '(?P<data>\d{4}-\d{2}-\d{2})|(?P<produto>[A-z]+\s\d+)|(?P<total>\d+[\.\,]+\d+)'
+                result = re.findall(pattern, line)
+                if result:
+                    data = result[0][0]
+                    produto = result[1][1]
+                    total = result[2][2]
+                    lista_registros.append((produto, total, data))
+        return lista_registros
+    
+    def parametros_necessarios(self):
+        return ('algoritmo', 'arquivo')
+
+    def nome(self):
+        return 'Algoritmo Texto2'

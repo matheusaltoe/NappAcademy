@@ -5,8 +5,11 @@ def carregar_credenciais(arquivo):
     credenciais = {}
     try:
         with open(arquivo) as file:
+            separador = '==>'
             for line in file:
-                key, valor = line.split('==>')
+                if not separador in line:
+                    continue
+                key, valor = line.split(separador)
                 valor = valor.replace('\n', '')
                 credenciais[key] = valor
     except FileNotFoundError:
@@ -17,9 +20,10 @@ def carregar_credenciais(arquivo):
 if __name__ == "__main__":
     arquivos = []
     arquivos += ['credenciais1.txt', 'credenciais2.txt']
-#    arquivos += ['credenciais3.txt']
+#   arquivos += ['credenciais3.txt']
     arquivos += ['credenciais4.txt', 'credenciais5.txt']
-#    arquivos += ['credenciais6.txt']
+#   arquivos += ['credenciais6.txt']
+    arquivos += ['credenciais7.txt', 'credenciais8.txt']
 
     for arquivo in arquivos:
         credenciais = carregar_credenciais(arquivo)
