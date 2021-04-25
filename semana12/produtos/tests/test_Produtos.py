@@ -1,7 +1,9 @@
 from produtos.classes.Produtos import Produto
 from produtos.classes.Produtos import CocaCola
 from produtos.classes.Produtos import Pepsi
-from produtos.classes.Caracteristicas import Tamanho600ml
+from produtos.classes.Produtos import Dolly
+from produtos.classes.Produtos import GuaranaAntartica
+from produtos.classes.Caracteristicas import Tamanho600ml, Caracteristicas
 import pytest
 
 
@@ -20,9 +22,30 @@ class TestColaborador:
         assert isinstance(objeto, CocaCola)
         assert objeto.operation() == msg
 
+    def test_class_Dolly(self):
+        msg = 'Dolly tamanho: 600ml.'
+        objeto = Dolly(Tamanho600ml())
+        assert isinstance(objeto, Produto)
+        assert isinstance(objeto, Dolly)
+        assert objeto.operation() == msg
+
+    def test_class_GuaranaAntartica(self):
+        msg = 'GuaranaAntartica tamanho: 600ml.'
+        objeto = GuaranaAntartica(Tamanho600ml())
+        assert isinstance(objeto, Produto)
+        assert isinstance(objeto, GuaranaAntartica)
+        assert objeto.operation() == msg
+
     def test_class_abstractClass(self):
         msg_erro = "Can't instantiate abstract class Produto "
         msg_erro = msg_erro + "with abstract methods operation"
         with pytest.raises(TypeError) as error:
             Produto()
         assert str(error.value) == msg_erro
+
+    def test_class_invalid_SubClass(self):
+        msg_erro = "Deve ser informado uma subclasse de Caracteristicas"
+        with pytest.raises(Exception) as error:
+            objeto = GuaranaAntartica(None)
+            objeto.operation()
+            assert str(error.value) == msg_erro
