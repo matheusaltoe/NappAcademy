@@ -1,5 +1,5 @@
 from abc import ABC, abstractmethod
-from sessoes import PersonalSection, AlbumSection, PublicationSection
+from sessoes import PersonalSection, AlbumSection, PublicationSection, UploadCode
 
 
 class Profile(ABC):
@@ -25,6 +25,18 @@ class linkedin(Profile):
 
 
 class facebook(Profile):
+    def createProfile(self):
+        self.addSections(PersonalSection())
+        self.addSections(AlbumSection())
+
+
+class github(Profile):
+    def createProfile(self):
+        self.addSections(PersonalSection())
+        self.addSections(UploadCode())
+
+
+class instagram(Profile):
     def createProfile(self):
         self.addSections(PersonalSection())
         self.addSections(AlbumSection())
